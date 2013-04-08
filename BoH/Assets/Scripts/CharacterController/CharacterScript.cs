@@ -10,8 +10,8 @@ public class CharacterScript : MonoBehaviour {
 	public int AtackSpeed = 1;
 	private int constantSpeed = 4; // base movement speed that all characters have before MSpeed be applied
 	private Vector3 moveDirection;
-	public string atackMelee = "b";
-	public string atackRange = "n";
+	public string meleeAttack = "b";
+	public string rangedAttack = "n";
 	public string specialAtack = "m";
 	public Rigidbody rangeWeapon;
 	
@@ -21,11 +21,16 @@ public class CharacterScript : MonoBehaviour {
 	public  string down = "s";
 	public  string left = "a";
 	public  string right = "d";
-
+	
+	
+	public float rotSpeed = 1; // rotation speed in degrees/second
+	private Vector3 initialAngles;
+	private Vector3 curAngles; // rotation relative to initial direction
 
 	// Use this for initialization
 	void Start () {
-		
+		initialAngles = transform.eulerAngles;
+ 		curAngles = Vector3.zero;
 	}
 	
 	// Update is called once per frame
@@ -49,40 +54,33 @@ public class CharacterScript : MonoBehaviour {
 		if(Input.GetKey(right)){
 			GoRight();
 		}
-		
-		if(Input.GetKey(atackMelee)){
-				
-				
-		}
-		else if(Input.GetKey(atackRange)){
-				
-				
-		}
-		else if(Input.GetKey(specialAtack)){
-				
-				
-		}
 	}
 	
 	//Control movement
 	public void GoUP(){
-		transform.Translate(new Vector3(0,0,constantSpeed*Time.deltaTime*MSpeed));
+		transform.Translate(new Vector3(0,0,constantSpeed*Time.deltaTime*MSpeed),Space.World);
 	}
 	public void GoDown(){
-		transform.Translate(new Vector3(0,0,-constantSpeed*Time.deltaTime*MSpeed));
+		transform.Translate(new Vector3(0,0,-constantSpeed*Time.deltaTime*MSpeed),Space.World);
 	}
 	public void GoLeft(){
-		transform.Translate(new Vector3(-constantSpeed*Time.deltaTime*MSpeed,0,0));
+		transform.Translate(new Vector3(-constantSpeed*Time.deltaTime*MSpeed,0,0),Space.World);
+		curAngles.y -= rotSpeed * Time.deltaTime;
+		curAngles.y = Mathf.Clamp(curAngles.y, 180, 360);
+		transform.eulerAngles = initialAngles + curAngles;
 	}
 	public void GoRight(){
-		transform.Translate(new Vector3(constantSpeed*Time.deltaTime*MSpeed,0,0));
+		transform.Translate(new Vector3(constantSpeed*Time.deltaTime*MSpeed,0,0),Space.World);
+		curAngles.y -= rotSpeed * Time.deltaTime;
+		curAngles.y = Mathf.Clamp(curAngles.y, 0, 360);
+		transform.eulerAngles = initialAngles;
 	}
 	
 	//Melee atack
 	void OnTriggerStay (Collider other) {
 		CharacterScript script = other.gameObject.GetComponent<CharacterScript>();
 		if(other.tag != gameObject.tag){
-			if(Input.GetKey(atackMelee)){
+			if(Input.GetKey(meleeAttack)){
 				script.HP = (int)(script.HP - Atack * DEF_multiplier(script.DEF));
 			}	
 		}
@@ -91,7 +89,7 @@ public class CharacterScript : MonoBehaviour {
 	
 	//Atack Range
 	void AtackRange(){
-		if(Input.GetKey(atackRange)){
+		if(Input.GetKey(rangedAttack)){
 			timer -= Time.deltaTime;
 			if (timer < 0)
     		{	
