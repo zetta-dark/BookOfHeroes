@@ -6,9 +6,9 @@ public class CharacterAnimationScript : MonoBehaviour {
 	
 	public BoneAnimation characterAnimation;
 	private CharacterScript script;
-	private float speed = 20.0f;
-	private float jumpSpeed = 15.0f;
-	private float gravity = 30.0f;
+	public float speed = 20.0f;
+	public float jumpSpeed = 15.0f;
+	public float gravity = 30.0f;
  	private Vector3 moveDirection = Vector3.zero;
 	private bool isgrounded = true;
 	
