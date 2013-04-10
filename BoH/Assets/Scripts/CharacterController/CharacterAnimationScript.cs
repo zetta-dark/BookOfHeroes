@@ -6,9 +6,9 @@ public class CharacterAnimationScript : MonoBehaviour {
 	
 	public BoneAnimation characterAnimation;
 	private CharacterScript script;
-	private float speed = 6.0f;
-	private float jumpSpeed = 8.0f;
-	private float gravity = 20.0f;
+	private float speed = 20.0f;
+	private float jumpSpeed = 15.0f;
+	private float gravity = 30.0f;
  	private Vector3 moveDirection = Vector3.zero;
 	private bool isgrounded = true;
 	
@@ -53,7 +53,7 @@ public class CharacterAnimationScript : MonoBehaviour {
 		}
 		
 		CharacterController controller = GetComponent<CharacterController>();
-		if(isgrounded == true)
+		if(controller.isGrounded)
 	    {
 	        moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 	        moveDirection = transform.TransformDirection(moveDirection);
@@ -64,16 +64,14 @@ public class CharacterAnimationScript : MonoBehaviour {
 	        }
 	    }
 	 
-		if(isgrounded == false)
-	    {
 		    // Apply gravity
 		    moveDirection.y -= gravity * Time.deltaTime;
 		 
 		    // Move the controller
 		    controller.Move(moveDirection * Time.deltaTime);
-		}
+		
 }
-	
+	/*
 	//make sure u replace "floor" with your gameobject name.on which player is standing
 	void OnCollisionEnter(Collision theCollision){
 	    if(theCollision.gameObject.name == "Floor")
@@ -88,5 +86,5 @@ public class CharacterAnimationScript : MonoBehaviour {
 	    {
 	        isgrounded = false;
 	    }
-	}
+	}*/
 }

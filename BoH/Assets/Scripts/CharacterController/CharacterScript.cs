@@ -42,8 +42,8 @@ public class CharacterScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		AtackRange();
-		ControlCharacter();
-		checkJump();
+	//	ControlCharacter();
+	//	checkJump();
 	}
 	
 	
@@ -82,7 +82,6 @@ public class CharacterScript : MonoBehaviour {
 		curAngles.y = Mathf.Clamp(curAngles.y, 0, 360);
 		transform.eulerAngles = initialAngles;
 	}
-	
 	//Melee atack
 	void OnTriggerStay (Collider other) {
 		CharacterScript script = other.gameObject.GetComponent<CharacterScript>();

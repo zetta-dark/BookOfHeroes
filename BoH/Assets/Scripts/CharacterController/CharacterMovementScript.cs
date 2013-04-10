@@ -53,7 +53,7 @@ public class CharacterMovementScript : MonoBehaviour {
 		}
 		
 		CharacterController controller = GetComponent<CharacterController>();
-		if(isgrounded == true)
+		if(controller.isGrounded)
 	    {
 	        moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 	        moveDirection = transform.TransformDirection(moveDirection);
@@ -64,18 +64,16 @@ public class CharacterMovementScript : MonoBehaviour {
 	        }
 	    }
 	 
-		if(isgrounded == false)
-	    {
 		    // Apply gravity
 		    moveDirection.y -= gravity * Time.deltaTime;
 		 
 		    // Move the controller
 		    controller.Move(moveDirection * Time.deltaTime);
-		}
+		
 }
 	
 	//make sure u replace "floor" with your gameobject name.on which player is standing
-	void OnCollisionEnter(Collision theCollision){
+/*	void OnCollisionEnter(Collision theCollision){
 	    if(theCollision.gameObject.name == "Floor")
 	    {
 	        isgrounded = true;
@@ -88,7 +86,7 @@ public class CharacterMovementScript : MonoBehaviour {
 	    {
 	        isgrounded = false;
 	    }
-	}
+	}*/
 		
 	
 }
