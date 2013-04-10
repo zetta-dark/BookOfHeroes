@@ -26,9 +26,15 @@ public class CharacterScript : MonoBehaviour {
 	public float rotSpeed = 1; // rotation speed in degrees/second
 	private Vector3 initialAngles;
 	private Vector3 curAngles; // rotation relative to initial direction
-
+	public float jumpSpeed = 8.0f;
+    public float  gravity = 20.0f;
+	
+	private float initial_Y;
+	private float current_Y;
+	
 	// Use this for initialization
 	void Start () {
+		initial_Y = transform.position.y;
 		initialAngles = transform.eulerAngles;
  		curAngles = Vector3.zero;
 	}
@@ -37,6 +43,7 @@ public class CharacterScript : MonoBehaviour {
 	void Update () {
 		AtackRange();
 		ControlCharacter();
+		checkJump();
 	}
 	
 	
@@ -108,5 +115,20 @@ public class CharacterScript : MonoBehaviour {
 		else if(def <= 0)
 			val = 2 - 100 * 1/(100 + def);
 		return val;
+	}
+	
+	void checkJump(){
+		if (Input.GetButton ("Jump")) {
+	              current_Y = jumpSpeed;
+	    }
+        if (current_Y > initial_Y){
+        	current_Y -= gravity * Time.deltaTime; // Apply gravity
+			print ("2");
+		}
+		else {current_Y =  initial_Y;
+			
+		}
+		
+		  transform.position = new Vector3(0,current_Y,0);
 	}
 }
